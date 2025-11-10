@@ -3,46 +3,50 @@ local M = {
   cmd = "Copilot",
   event = "InsertEnter",
   dependencies = {
-    "zbirenbaum/copilot-cmp",
+    {
+      "zbirenbaum/copilot-cmp",
+      config = function()
+        require("copilot_cmp").setup()
+      end,
+    },
   },
 }
 
 function M.config()
   require("copilot").setup {
     panel = {
+      enabled = true,
+      auto_refresh = false,
       keymap = {
-        jump_next = "<c-j>",
-        jump_prev = "<c-k>",
-        accept = "<c-l>",
-        refresh = "r",
+        jump_prev = "[[",
+        jump_next = "]]",
+        accept = "<CR>",
+        refresh = "gr",
         open = "<M-CR>",
+      },
+      layout = {
+        position = "bottom",
+        ratio = 0.4,
       },
     },
     suggestion = {
-      enabled = true,
-      auto_trigger = true,
-      keymap = {
-        accept = "<c-l>",
-        next = "<c-j>",
-        prev = "<c-k>",
-        dismiss = "<c-h>",
-      },
+      enabled = false, -- Disable inline suggestions, use cmp instead
+      auto_trigger = false,
     },
     filetypes = {
+      yaml = false,
       markdown = true,
       help = false,
       gitcommit = false,
       gitrebase = false,
+      hgcommit = false,
+      svn = false,
       cvs = false,
       ["."] = false,
     },
-    copilot_node_command = "node",
+    copilot_node_command = vim.fn.expand("$HOME") .. "/.nvm/versions/node/v24.11.0/bin/node",
+    server_opts_overrides = {},
   }
-
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap("n", "<c-s>", ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
-
-  -- require("copilot_cmp").setup()
 end
 
 return M
