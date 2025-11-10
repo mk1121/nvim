@@ -1,0 +1,25 @@
+# Git files
+.git
+.github
+.gitignore
+
+# Backup files
+*.bak
+*.old
+*.swp
+*.swo
+*~
+
+# Neovim runtime
+lazy-lock.json
+
+# Local state
+.local/
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation (optional, include if needed)
+# README.md
